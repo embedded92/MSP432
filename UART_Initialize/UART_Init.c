@@ -9,7 +9,8 @@
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 
 #include "UART_Init.h"
-
+#include "string.h"
+#include "stdlib.h"
 /* UART configuration at 115200 Baud rate and 24MHz clock*/
 const eUSCI_UART_Config uart115200_24MHz = {
 EUSCI_A_UART_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
@@ -65,7 +66,7 @@ EUSCI_A_UART_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
 
         };
 
-void uartPrint(uint32_t UART, char str[100])
+void UartWrite(uint32_t UART, char str[100])
 {
 
     int data_len = strlen(str);
@@ -75,7 +76,7 @@ void uartPrint(uint32_t UART, char str[100])
         MAP_UART_transmitData(UART, str[i]);
     }
 }
-void uart0Init(int baud)
+void UartInit0(int baud)
 {
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
     GPIO_PORT_P1, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
@@ -100,13 +101,13 @@ void EUSCIA0_IRQHandler(void)
 
     if (status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG)
     {
-        UART0RxData = MAP_UART_receiveData(EUSCI_A0_BASE);
+        uart0rxdata = MAP_UART_receiveData(EUSCI_A0_BASE);
     }
-    rx0buf[buff0Index] = UART0RxData;
+    rx0buf[buff0Index] = uart0rxdata;
     buff0Index++;
 }
 
-void uart1Init(int baud)
+void UartInit1(int baud)
 {
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
             GPIO_PORT_P2, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
@@ -133,16 +134,16 @@ void EUSCIA1_IRQHandler(void)
 
     if (status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG)
     {
-        UART1RxData = MAP_UART_receiveData(EUSCI_A1_BASE);
+        uart1rxdata = MAP_UART_receiveData(EUSCI_A1_BASE);
         //MAP_UART_transmitData(EUSCI_A2_BASE, UART1RxData);
         MAP_Interrupt_disableSleepOnIsrExit();
     }
-    rx1buf[buff1Index] = UART1RxData;
+    rx1buf[buff1Index] = uart1rxdata;
     buff1Index++;
 }
 
 
-void uart2Init(int baud)
+void UartInit2(int baud)
 {
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
     GPIO_PORT_P3, GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
@@ -170,15 +171,15 @@ void EUSCIA2_IRQHandler(void)
 
     if (status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG)
     {
-        UART2RxData = MAP_UART_receiveData(EUSCI_A2_BASE);
+        uart2rxdata = MAP_UART_receiveData(EUSCI_A2_BASE);
         MAP_Interrupt_disableSleepOnIsrExit();
     }
    // MAP_UART_transmitData(EUSCI_A2_BASE, UART2RxData);
-    rx2buf[buff2Index] = UART2RxData;
+    rx2buf[buff2Index] = uart2rxdata;
     buff2Index++;
 
 }
-void uart3Init(int baud)
+void UartInit3(int baud)
 {
     MAP_GPIO_setAsPeripheralModuleFunctionInputPin(
             GPIO_PORT_P9, GPIO_PIN6 | GPIO_PIN7, GPIO_PRIMARY_MODULE_FUNCTION);
@@ -205,10 +206,10 @@ void EUSCIA3_IRQHandler(void)
 
     if (status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG)
     {
-        UART3RxData = MAP_UART_receiveData(EUSCI_A3_BASE);
+        uart3rxdata = MAP_UART_receiveData(EUSCI_A3_BASE);
         MAP_Interrupt_disableSleepOnIsrExit();
     }
-    rx3buf[buff3Index] = UART3RxData;
+    rx3buf[buff3Index] = uart3rxdata;
     buff3Index++;
     //MAP_UART_transmitData(EUSCI_A2_BASE, UART3RxData);
 }

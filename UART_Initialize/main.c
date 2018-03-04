@@ -13,9 +13,9 @@ int main(void)
     FlashCtl_setWaitState(FLASH_BANK1, 2);
     MAP_PCM_setCoreVoltageLevel(PCM_VCORE1);
     CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_24);
-    uart0Init(115200);
-    uart1Init(9600);
-    uartPrint(EUSCI_A0_BASE, "Hello World from UART0 at 115200 baud rate");
-    uartPrint(EUSCI_A1_BASE, "HEllo World from UART1 at 9600 baud rate");
+    UartInit0(115200);
+    UartInit1(9600);
+    UartWrite(EUSCI_A0_BASE, "Hello World from UART0 at 115200 baud rate");
+    UartWrite(EUSCI_A1_BASE, "HEllo World from UART1 at 9600 baud rate");
 
 }

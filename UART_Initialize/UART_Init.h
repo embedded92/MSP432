@@ -12,14 +12,10 @@
 #define UART_INIT_H_
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 
-volatile uint8_t UART0RxData;
-volatile uint8_t UART0TxData;
-volatile uint8_t UART1RxData;
-volatile uint8_t UART1TxData;
-volatile uint8_t UART2RxData;
-volatile uint8_t UART2TxData;
-volatile uint8_t UART3RxData;
-volatile uint8_t UART3TxData;
+volatile uint8_t uart0rxdata;
+volatile uint8_t uart1rxdata;
+volatile uint8_t uart2rxdata;
+volatile uint8_t uart3rxdata;
 char rx0buf[128];
 char rx1buf[128];
 char rx2buf[128];
@@ -28,9 +24,9 @@ int buff0Index;
 int buff1Index;
 int buff2Index;
 int buff3Index;
-void uart0Init(int baud);
-void uart1Init(int baud);
-void uart2Init(int baud);
-void uart3Init(int baud);
-void uartPrint(uint32_t UART, char str[100]);
+void UartInit0(int baud);
+void UartInit1(int baud);
+void UartInit2(int baud);
+void UartInit3(int baud);
+void UartWrite(uint32_t UART, char str[100]);
 #endif

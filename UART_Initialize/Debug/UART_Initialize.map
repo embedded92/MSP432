@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v16.9.6                     
 ******************************************************************************
->> Linked Sun Mar 04 16:49:27 2018
+>> Linked Sun Mar 04 17:12:48 2018
 
 OUTPUT FILE NAME:   <UART_Initialize.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00000725
@@ -44,9 +44,9 @@ section   page    origin      length       input sections
 .binit     0    00000000    00000000     
 
 .text      0    000000e4    0000083a     
-                  000000e4    000000bc     main.obj (.text:main)
-                  000001a0    000000bc     UART_Init.obj (.text:uart0Init)
-                  0000025c    000000bc     UART_Init.obj (.text:uart1Init)
+                  000000e4    000000bc     UART_Init.obj (.text:UartInit0)
+                  000001a0    000000bc     UART_Init.obj (.text:UartInit1)
+                  0000025c    000000bc     main.obj (.text:main)
                   00000318    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.obj (.text)
                   000003b4    0000007a                                   : memset_t2.obj (.text)
                   0000042e    00000002     startup_msp432p401r_ccs.obj (.text:Default_Handler)
@@ -59,8 +59,8 @@ section   page    origin      length       input sections
                   000006c4    00000060     UART_Init.obj (.text:EUSCIA0_IRQHandler)
                   00000724    00000054     rtsv7M4_T_le_v4SPD16_eabi.lib : boot.obj (.text)
                   00000778    00000054                                   : exit.obj (.text)
-                  000007cc    0000004c                                   : cpy_tbl.obj (.text)
-                  00000818    0000004c     UART_Init.obj (.text:uartPrint)
+                  000007cc    0000004c     UART_Init.obj (.text:UartWrite)
+                  00000818    0000004c     rtsv7M4_T_le_v4SPD16_eabi.lib : cpy_tbl.obj (.text)
                   00000864    00000028     msp432p4xx_driverlib.lib : flash_MSP432P4XX.obj (.text:FlashCtl_setWaitState)
                   0000088c    00000024                              : cs_MSP432P4XX.obj (.text:CS_setDCOCenteredFrequency)
                   000008b0    00000018     rtsv7M4_T_le_v4SPD16_eabi.lib : args_main.obj (.text)
@@ -98,10 +98,10 @@ section   page    origin      length       input sections
                   20000204    00000004     (.common:buff1Index)
                   20000208    00000004     (.common:buff2Index)
                   2000020c    00000004     (.common:buff3Index)
-                  20000210    00000001     (.common:UART0RxData)
-                  20000211    00000001     (.common:UART1RxData)
-                  20000212    00000001     (.common:UART2RxData)
-                  20000213    00000001     (.common:UART3RxData)
+                  20000210    00000001     (.common:uart0rxdata)
+                  20000211    00000001     (.common:uart1rxdata)
+                  20000212    00000001     (.common:uart2rxdata)
+                  20000213    00000001     (.common:uart3rxdata)
 
 .data      0    20000214    00000018     UNINITIALIZED
                   20000214    0000000c     rtsv7M4_T_le_v4SPD16_eabi.lib : exit.obj (.data:$O1$$)
@@ -238,10 +238,9 @@ UNDEFED   SHT$$INIT_ARRAY$$Limit
 0000042f  TA2_N_IRQHandler               
 0000042f  TA3_0_IRQHandler               
 0000042f  TA3_N_IRQHandler               
-20000210  UART0RxData                    
-20000211  UART1RxData                    
-20000212  UART2RxData                    
-20000213  UART3RxData                    
+000000e5  UartInit0                      
+000001a1  UartInit1                      
+000007cd  UartWrite                      
 0000042f  UsageFault_Handler             
 4000480c  WDTCTL_SYM                     
 0000042f  WDT_A_IRQHandler               
@@ -290,10 +289,10 @@ ffffffff  binit
 20000204  buff1Index                     
 20000208  buff2Index                     
 2000020c  buff3Index                     
-000007cd  copy_in                        
+00000819  copy_in                        
 00000785  exit                           
 00000000  interruptVectors               
-000000e5  main                           
+0000025d  main                           
 20000228  main_func_sp                   
 00000319  memcpy                         
 000003bd  memset                         
@@ -302,13 +301,14 @@ ffffffff  binit
 20000100  rx2buf                         
 20000180  rx3buf                         
 000008dd  strlen                         
-000001a1  uart0Init                      
+20000210  uart0rxdata                    
 00000920  uart115200_24MHz               
 00000944  uart19200_24MHz                
-0000025d  uart1Init                      
+20000211  uart1rxdata                    
+20000212  uart2rxdata                    
+20000213  uart3rxdata                    
 00000968  uart57600_24MHz                
 0000098c  uart9600_24MHz                 
-00000819  uartPrint                      
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -317,10 +317,10 @@ address   name
 -------   ----                           
 00000000  __TI_static_base__             
 00000000  interruptVectors               
-000000e5  main                           
-000001a1  uart0Init                      
+000000e5  UartInit0                      
+000001a1  UartInit1                      
 00000200  __STACK_SIZE                   
-0000025d  uart1Init                      
+0000025d  main                           
 00000319  __aeabi_memcpy                 
 00000319  __aeabi_memcpy4                
 00000319  __aeabi_memcpy8                
@@ -394,8 +394,8 @@ address   name
 00000779  C$$EXIT                        
 0000077d  abort                          
 00000785  exit                           
-000007cd  copy_in                        
-00000819  uartPrint                      
+000007cd  UartWrite                      
+00000819  copy_in                        
 00000865  FlashCtl_setWaitState          
 0000088d  CS_setDCOCenteredFrequency     
 000008b1  _args_main                     
@@ -425,10 +425,10 @@ address   name
 20000204  buff1Index                     
 20000208  buff2Index                     
 2000020c  buff3Index                     
-20000210  UART0RxData                    
-20000211  UART1RxData                    
-20000212  UART2RxData                    
-20000213  UART3RxData                    
+20000210  uart0rxdata                    
+20000211  uart1rxdata                    
+20000212  uart2rxdata                    
+20000213  uart3rxdata                    
 20000214  __TI_cleanup_ptr               
 20000218  __TI_dtors_ptr                 
 2000021c  __TI_enable_exit_profile_output
