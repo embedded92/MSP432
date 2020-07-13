@@ -1,3 +1,4 @@
 # MSP432
 Serial Ports
-Projects for interfacing different Serial PRotocols.
+
+Projects for interfacing different Serial Protocols.
