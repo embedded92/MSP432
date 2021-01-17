@@ -6,7 +6,6 @@
 
 
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
-
 #include "UART_Init.h"
 #include "string.h"
 #include "stdlib.h"
