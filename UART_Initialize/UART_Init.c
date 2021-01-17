@@ -1,6 +1,5 @@
 /*
  * UART_Init.c
- *
  *  Created on: 04-Mar-2018
  *      Author: Ramneet Kaur
  */
